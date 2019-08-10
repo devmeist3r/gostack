@@ -9,13 +9,13 @@ import logo from '~/assets/logo.svg'
 import { signUpRequest } from '~/store/modules/auth/actions'
 
 const schema = Yup.object().shape({
-  nome: Yup.string().required('O nome é obrigatória.'),
+  name: Yup.string().required('O nome é obrigatório'),
   email: Yup.string()
-    .email('Informe um e-mail válido')
-    .required('O e-email é obrigátorio'),
+    .email('Insira um e-mail válido')
+    .required('O e-mail é obrigatório'),
   password: Yup.string()
-    .min(6, 'No minimo 6 caracteres.')
-    .required('A senha é obrigatória.'),
+    .min(6, 'No mínimo 6 caracteres')
+    .required('A senha é obrigatória'),
 })
 
 export default function SignUp() {
@@ -27,10 +27,10 @@ export default function SignUp() {
 
   return (
     <>
-      <img src={logo} alt="Logo gobarber" />
+      <img src={logo} alt="GoBarber" />
 
       <Form schema={schema} onSubmit={handleSubmit}>
-        <Input name="name" type="text" placeholder="Seu nome" />
+        <Input name="name" placeholder="Nome completo" />
         <Input name="email" type="email" placeholder="Seu e-mail" />
         <Input
           name="password"
@@ -39,7 +39,7 @@ export default function SignUp() {
         />
 
         <button type="submit">Criar conta</button>
-        <Link to="/">Ja tenho login</Link>
+        <Link to="/">Já tenho login</Link>
       </Form>
     </>
   )

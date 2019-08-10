@@ -4,12 +4,12 @@ import { toast } from 'react-toastify'
 import api from '~/services/api'
 import history from '~/services/history'
 
-import { signInSuccess, signInFailure } from './actions'
+import { signInSuccess, signFailure } from './actions'
 
 export function* signIn({ payload }) {
   try {
     const { email, password } = payload
-    const response = yield call(api.post, '/sessions', {
+    const response = yield call(api.post, 'sessions', {
       email,
       password,
     })
@@ -21,35 +21,49 @@ export function* signIn({ payload }) {
       return
     }
 
+    api.defaults.headers.Authorization = `Bearer ${token}`
+
     yield put(signInSuccess(token, user))
 
     history.push('/dashboard')
   } catch (err) {
     toast.error('Falha na autenticação, verifique seus dados')
-    yield put(signInFailure())
+    yield put(signFailure())
   }
 }
 
-// export function* signUp({ payload }) {
-//   try {
-//     const { name, email, password } = payload
+export function* signUp({ payload }) {
+  console.tron.log('chegou aqui saga')
+  try {
+    const { name, email, password } = payload
 
-//     yield call(api.post, '/users', {
-//       name,
-//       email,
-//       password,
-//       provider: true,
-//     })
+    yield call(api.post, 'users', {
+      name,
+      email,
+      password,
+      provider: true,
+    })
 
-//     history.push('/')
-//   } catch (error) {
-//     toast.error('Falha no cadastro, verifique seus dados!')
+    history.push('/dashboard')
+  } catch (err) {
+    toast.error('Falha no cadastro, verifique seus dados!')
 
-//     yield put(signInFailure())
-//   }
-// }
+    yield put(signFailure())
+  }
+}
+
+export function setToken({ payload }) {
+  if (!payload) return
+
+  const { token } = payload
+
+  if (token) {
+    api.defaults.headers.Authorization = `Bearer ${token}`
+  }
+}
 
 export default all([
+  takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
-  // takeLatest('@auth/SIGN_UP_REQUEST', signUp),
+  takeLatest('@auth/SIGN_UP_REQUEST', signUp),
 ])
