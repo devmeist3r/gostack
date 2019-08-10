@@ -1,13 +1,14 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects'
+import { toast } from 'react-toastify'
+
 import api from '~/services/api'
 import history from '~/services/history'
 
-import { signInSuccess } from './actions'
+import { signInSuccess, signInFailure } from './actions'
 
-export function* singIn({ payload }) {
-  const { email, password } = payload
-
+export function* signIn({ payload }) {
   try {
+    const { email, password } = payload
     const response = yield call(api.post, '/sessions', {
       email,
       password,
@@ -16,7 +17,7 @@ export function* singIn({ payload }) {
     const { token, user } = response.data
 
     if (!user.provider) {
-      console.tron.error('Usuário não é prestador')
+      toast.error('Usuário não é prestador')
       return
     }
 
@@ -24,8 +25,31 @@ export function* singIn({ payload }) {
 
     history.push('/dashboard')
   } catch (err) {
-    console.tron.log(err)
+    toast.error('Falha na autenticação, verifique seus dados')
+    yield put(signInFailure())
   }
 }
 
-export default all([takeLatest('@auth/SIGN_IN_REQUEST', singIn)])
+// export function* signUp({ payload }) {
+//   try {
+//     const { name, email, password } = payload
+
+//     yield call(api.post, '/users', {
+//       name,
+//       email,
+//       password,
+//       provider: true,
+//     })
+
+//     history.push('/')
+//   } catch (error) {
+//     toast.error('Falha no cadastro, verifique seus dados!')
+
+//     yield put(signInFailure())
+//   }
+// }
+
+export default all([
+  takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+  // takeLatest('@auth/SIGN_UP_REQUEST', signUp),
+])
