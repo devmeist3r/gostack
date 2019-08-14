@@ -1,14 +1,15 @@
-import { all, takeLatest, call, put } from 'redux-saga/effects'
+import { takeLatest, call, put, all } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 
-import api from '~/services/api'
 import history from '~/services/history'
+import api from '~/services/api'
 
 import { signInSuccess, signFailure } from './actions'
 
 export function* signIn({ payload }) {
   try {
     const { email, password } = payload
+
     const response = yield call(api.post, 'sessions', {
       email,
       password,
@@ -33,7 +34,6 @@ export function* signIn({ payload }) {
 }
 
 export function* signUp({ payload }) {
-  console.tron.log('chegou aqui saga')
   try {
     const { name, email, password } = payload
 
@@ -44,7 +44,7 @@ export function* signUp({ payload }) {
       provider: true,
     })
 
-    history.push('/dashboard')
+    history.push('/')
   } catch (err) {
     toast.error('Falha no cadastro, verifique seus dados!')
 
@@ -55,15 +55,20 @@ export function* signUp({ payload }) {
 export function setToken({ payload }) {
   if (!payload) return
 
-  const { token } = payload
+  const { token } = payload.auth
 
   if (token) {
     api.defaults.headers.Authorization = `Bearer ${token}`
   }
 }
 
+export function signOut() {
+  history.push('/')
+}
+
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
+  takeLatest('@auth/SIGN_OUT', signOut),
 ])
