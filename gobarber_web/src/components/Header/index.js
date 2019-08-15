@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Notifications from '~/components/Notifications'
 
-import logo from '~/assets/logoRoxo.svg'
-
+import logo from '~/assets/logo-purple.svg'
 import { Container, Content, Profile } from './styles'
 
 export default function Header() {
@@ -16,7 +15,7 @@ export default function Header() {
       <Content>
         <nav>
           <img src={logo} alt="GoBarber" />
-          <Link to="/">DASHBOARD</Link>
+          <Link to="/dashboard">DASHBOARD</Link>
         </nav>
 
         <aside>
@@ -28,12 +27,12 @@ export default function Header() {
               <Link to="/profile">Meu perfil</Link>
             </div>
             <img
-              // src="https://api.adorable.io/avatars/50/abott@adorable.png"
-              src={
-                profile.avatar.url ||
-                'https://api.adorable.io/avatars/50/abott@adorable.png'
-              }
-              alt="profile"
+              // src={
+              //   profile.avatar.url ||
+              //   'https://api.adorable.io/avatars/50/abott@adorable.png'
+              // }
+              src="https://api.adorable.io/avatars/50/abott@adorable.png"
+              alt="Diego Fernandes"
             />
           </Profile>
         </aside>
