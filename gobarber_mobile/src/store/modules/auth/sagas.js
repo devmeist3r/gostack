@@ -39,7 +39,6 @@ export function* signUp({ payload }) {
       name,
       email,
       password,
-      provider: true,
     })
   } catch (err) {
     Alert.alert('GoBarber', 'Falha no cadastro, verifique seus dados!')
