@@ -15,14 +15,14 @@ class ScheduleController {
     }
 
     const { date } = req.query
-    const parseDate = parseISO(date)
+    const parsedDate = parseISO(date)
 
     const appointments = await Appointment.findAll({
       where: {
         provider_id: req.userId,
         canceled_at: null,
         date: {
-          [Op.between]: [startOfDay(parseDate), endOfDay(parseDate)],
+          [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)],
         },
       },
       include: [

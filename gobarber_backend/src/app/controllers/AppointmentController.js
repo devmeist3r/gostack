@@ -7,19 +7,18 @@ import Appointment from '../models/Appointment'
 import Notification from '../schemas/Notification'
 
 import CancellationMail from '../jobs/CancellationMail'
-
 import Queue from '../../lib/Queue'
 
-class ApointmentController {
+class AppointmentController {
   async index(req, res) {
     const { page = 1 } = req.query
 
     const appointments = await Appointment.findAll({
       where: { user_id: req.userId, canceled_at: null },
       order: ['date'],
+      attributes: ['id', 'date', 'past', 'cancelable'],
       limit: 20,
       offset: (page - 1) * 20,
-      attributes: ['id', 'date', 'past', 'cancelable'],
       include: [
         {
           model: User,
@@ -46,7 +45,7 @@ class ApointmentController {
     })
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ eroor: 'Validation fails' })
+      return res.status(400).json({ error: 'Validation fails' })
     }
 
     const { provider_id, date } = req.body
@@ -54,12 +53,11 @@ class ApointmentController {
     /**
      * Check if provider_id is a provider
      */
-
-    const isProvider = await User.findOne({
+    const checkIsProvider = await User.findOne({
       where: { id: provider_id, provider: true },
     })
 
-    if (!isProvider) {
+    if (!checkIsProvider) {
       return res
         .status(401)
         .json({ error: 'You can only create appointments with providers' })
@@ -75,7 +73,7 @@ class ApointmentController {
     }
 
     /**
-     * Check date availab
+     * Check date availability
      */
     const checkAvailability = await Appointment.findOne({
       where: {
@@ -88,7 +86,7 @@ class ApointmentController {
     if (checkAvailability) {
       return res
         .status(400)
-        .json({ error: 'Appointment date is not avaliable' })
+        .json({ error: 'Appointment date is not available' })
     }
 
     const appointment = await Appointment.create({
@@ -100,14 +98,11 @@ class ApointmentController {
     /**
      * Notify appointment provider
      */
-
     const user = await User.findByPk(req.userId)
     const formattedDate = format(
       hourStart,
-      "'dia', dd 'de' MMMM', às' H:mm'h'",
-      {
-        locale: pt,
-      }
+      "'dia' dd 'de' MMMM', às' H:mm'h'",
+      { locale: pt }
     )
 
     await Notification.create({
@@ -121,26 +116,30 @@ class ApointmentController {
   async delete(req, res) {
     const appointment = await Appointment.findByPk(req.params.id, {
       include: [
-        { model: User, as: 'provider', attributes: ['name', 'email'] },
-        { model: User, as: 'user', attributes: ['name'] },
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
       ],
     })
 
     if (appointment.user_id !== req.userId) {
       return res.status(401).json({
-        error: "You don't have permission to cancel this appointment",
+        error: "You don't have permission to cancel this appointment.",
       })
     }
 
     const dateWithSub = subHours(appointment.date, 2)
 
-    /**
-     * Verificação da hora com
-     */
-
     if (isBefore(dateWithSub, new Date())) {
       return res.status(401).json({
-        error: 'You can only cancel appointment 2 hours in advanced',
+        error: 'You can only cancel appointments 2 hours in advance.',
       })
     }
 
@@ -156,4 +155,4 @@ class ApointmentController {
   }
 }
 
-export default new ApointmentController()
+export default new AppointmentController()

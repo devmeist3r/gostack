@@ -1,13 +1,13 @@
-import Notification from '../schemas/Notification'
 import User from '../models/User'
+import Notification from '../schemas/Notification'
 
 class NotificationController {
   async index(req, res) {
-    const isProvider = await User.findOne({
+    const checkIsProvider = await User.findOne({
       where: { id: req.userId, provider: true },
     })
 
-    if (!isProvider) {
+    if (!checkIsProvider) {
       return res
         .status(401)
         .json({ error: 'Only provider can load notifications' })
@@ -25,9 +25,7 @@ class NotificationController {
   async update(req, res) {
     const notification = await Notification.findByIdAndUpdate(
       req.params.id,
-      {
-        read: true,
-      },
+      { read: true },
       { new: true }
     )
 

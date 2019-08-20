@@ -1,6 +1,5 @@
-import { takeLatest, call, put, all } from 'redux-saga/effects'
-
 import { Alert } from 'react-native'
+import { takeLatest, call, put, all, delay } from 'redux-saga/effects'
 
 import api from '~/services/api'
 
@@ -17,16 +16,26 @@ export function* signIn({ payload }) {
 
     const { token, user } = response.data
 
-    if (!user.provider) {
-      Alert.alert('GoBarber', 'Usuário não é prestador')
+    if (user.provider) {
+      Alert.alert(
+        'Erro no login',
+        'O usuário não pode ser prestador de serviços'
+      )
       return
     }
 
     api.defaults.headers.Authorization = `Bearer ${token}`
 
+    yield delay(2000)
+
     yield put(signInSuccess(token, user))
+
+    // history.push('/dashboard');
   } catch (err) {
-    Alert.alert('GoBarber', 'Falha na autenticação, verifique seus dados')
+    Alert.alert(
+      'Falha na autenticação',
+      'Houve um erro no login, verifique seus dados'
+    )
     yield put(signFailure())
   }
 }
@@ -40,8 +49,13 @@ export function* signUp({ payload }) {
       email,
       password,
     })
+
+    // history.push('/');
   } catch (err) {
-    Alert.alert('GoBarber', 'Falha no cadastro, verifique seus dados!')
+    Alert.alert(
+      'Falha no cadastro',
+      'Houve um erro no cadastro, verifique seus dados'
+    )
 
     yield put(signFailure())
   }
@@ -57,11 +71,8 @@ export function setToken({ payload }) {
   }
 }
 
-export function signOut() {}
-
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
-  takeLatest('@auth/SIGN_OUT', signOut),
 ])
