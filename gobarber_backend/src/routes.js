@@ -1,4 +1,3 @@
-// modulo para configurar rotas
 import { Router } from 'express'
 import multer from 'multer'
 import multerConfig from './config/multer'
@@ -14,14 +13,13 @@ import AvailableController from './app/controllers/AvailableController'
 
 import authMiddleware from './app/middlewares/auth'
 
-// variavel de rotas
 const routes = new Router()
-
 const upload = multer(multerConfig)
 
 routes.post('/users', UserController.store)
-
 routes.post('/sessions', SessionController.store)
+
+routes.get('/', (req, res) => res.send('ok'))
 
 routes.use(authMiddleware)
 

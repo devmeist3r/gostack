@@ -6,26 +6,23 @@ import cors from 'cors'
 import Youch from 'youch'
 import * as Sentry from '@sentry/node'
 import 'express-async-errors'
+
 import routes from './routes'
 import sentryConfig from './config/sentry'
 
 import './database'
 
 class App {
-  // metodo executado inicio
   constructor() {
     this.server = express()
 
     Sentry.init(sentryConfig)
-
-    this.server.use(Sentry.Handlers.requestHandler())
 
     this.middlewares()
     this.routes()
     this.exceptionHandler()
   }
 
-  // middlewares
   middlewares() {
     this.server.use(Sentry.Handlers.requestHandler())
     this.server.use(cors())
@@ -36,13 +33,11 @@ class App {
     )
   }
 
-  // rotas
   routes() {
     this.server.use(routes)
     this.server.use(Sentry.Handlers.errorHandler())
   }
 
-  // excessao de errors
   exceptionHandler() {
     this.server.use(async (err, req, res, next) => {
       if (process.env.NODE_ENV === 'development') {

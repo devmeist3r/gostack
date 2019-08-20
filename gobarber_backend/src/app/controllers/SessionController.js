@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken'
-
 import * as Yup from 'yup'
 
-import authConfig from '../../config/auth'
 import User from '../models/User'
 import File from '../models/File'
+import authConfig from '../../config/auth'
 
 class SessionController {
   async store(req, res) {
@@ -16,14 +15,19 @@ class SessionController {
     })
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validade fails' })
+      return res.status(400).json({ error: 'Validation fails' })
     }
+
     const { email, password } = req.body
 
     const user = await User.findOne({
       where: { email },
       include: [
-        { model: File, as: 'avatar', attributes: ['id', 'path', 'url'] },
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'path', 'url'],
+        },
       ],
     })
 

@@ -10,7 +10,7 @@ class CancellationMail {
   async handle({ data }) {
     const { appointment } = data
 
-    await Mail.sendMail({
+    await Mail.senddMail({
       to: `${appointment.provider.name} <${appointment.provider.email}>`,
       subject: 'Agendamento cancelado',
       template: 'cancellation',
@@ -19,7 +19,7 @@ class CancellationMail {
         user: appointment.user.name,
         date: format(
           parseISO(appointment.date),
-          "'dia', dd 'de' MMMM', às' H:mm'h'",
+          "'dia' dd 'de' MMMM', às' H:mm'h'",
           {
             locale: pt,
           }
