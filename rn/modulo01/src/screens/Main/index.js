@@ -120,6 +120,7 @@ export default class Main extends Component {
           data={users}
           keyExtractor={item => item.login}
           renderItem={this.renderItem}
+          shoshowsVerticalScrollIndicatorw={false}
         />
       </Container>
     )
