@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react'
 import { TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+
 import { formatRelative, parseISO } from 'date-fns'
 import pt from 'date-fns/locale/pt'
 
-import Icon from 'react-native-vector-icons/MaterialIcons'
-
+import Background from '~/components/Background'
 import api from '~/services/api'
 
 import { Container, Avatar, Name, Time, SubmitButton } from './styles'
-
-import Background from '~/components/Background'
 
 export default function Confirm({ navigation }) {
   const provider = navigation.getParam('provider')

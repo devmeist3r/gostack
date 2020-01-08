@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import api from '~/services/api'
-
 import Background from '~/components/Background'
 import DateInput from '~/components/DateInput'
+import api from '~/services/api'
 
 import { Container, HourList, Hour, Title } from './styles'
 

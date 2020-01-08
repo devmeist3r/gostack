@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import api from '~/services/api'
-
 import Background from '~/components/Background'
+import api from '~/services/api'
 
 import { Container, ProvidersList, Provider, Avatar, Name } from './styles'
 

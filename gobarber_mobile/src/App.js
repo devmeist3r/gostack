@@ -1,6 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+
 import { setNavigator } from '~/services/navigation'
+
 import createRouter from './routes'
 
 export default function App() {

@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import { DatePickerIOS } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+
 import { format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
-
-import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { Container, DateButton, DateText, Picker } from './styles'
 

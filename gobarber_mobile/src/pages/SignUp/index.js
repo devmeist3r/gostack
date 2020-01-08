@@ -1,17 +1,13 @@
 import React, { useRef, useState } from 'react'
+import { Image } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 
 import PropTypes from 'prop-types'
 
-import { Image } from 'react-native'
-
-import { useDispatch, useSelector } from 'react-redux'
-
-import DismissKeyboard from '~/components/DismissKeyboard'
-import Background from '~/components/Background'
-
-import { signUpRequest } from '~/store/modules/auth/actions'
-
 import logo from '~/assets/logo.png'
+import Background from '~/components/Background'
+import DismissKeyboard from '~/components/DismissKeyboard'
+import { signUpRequest } from '~/store/modules/auth/actions'
 
 import {
   Container,

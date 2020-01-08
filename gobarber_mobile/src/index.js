@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { PersistGate } from 'redux-persist/integration/react'
+import { StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
 
-import { StatusBar } from 'react-native'
+import { PersistGate } from 'redux-persist/integration/react'
 
 import '~/config/ReactotronConfig'
 import App from './App'

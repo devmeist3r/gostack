@@ -1,34 +1,31 @@
 import React from 'react'
-
+import { Transition } from 'react-native-reanimated'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import {
   createAppContainer,
   createStackNavigator,
   createBottomTabNavigator,
 } from 'react-navigation'
-
-import Icon from 'react-native-vector-icons/MaterialIcons'
-
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch'
-import { Transition } from 'react-native-reanimated'
 
 /**
  * Login
  */
+import Dashboard from '~/pages/Dashboard'
+import Confirm from '~/pages/New/Confirm'
+import SelectDateTime from '~/pages/New/SelectDateTime'
+import SelectProvider from '~/pages/New/SelectProvider'
+import Profile from '~/pages/Profile'
 import SignIn from '~/pages/SignIn'
 import SignUp from '~/pages/SignUp'
 
 /**
  * Tabs
  */
-import Dashboard from '~/pages/Dashboard'
-import Profile from '~/pages/Profile'
 
 /**
  * Stack
  */
-import SelectProvider from '~/pages/New/SelectProvider'
-import SelectDateTime from '~/pages/New/SelectDateTime'
-import Confirm from '~/pages/New/Confirm'
 
 export default (isSigned = false) =>
   createAppContainer(

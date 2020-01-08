@@ -1,15 +1,13 @@
 import React, { useRef, useState } from 'react'
+import { Image } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 
 import PropTypes from 'prop-types'
 
-import { Image } from 'react-native'
-
-import { useDispatch, useSelector } from 'react-redux'
-
-import DismissKeyboard from '~/components/DismissKeyboard'
-import Background from '~/components/Background'
-
 import logo from '~/assets/logo.png'
+import Background from '~/components/Background'
+import DismissKeyboard from '~/components/DismissKeyboard'
+import { signInRequest } from '~/store/modules/auth/actions'
 
 import {
   Container,
@@ -19,8 +17,6 @@ import {
   SignLink,
   SignLinkText,
 } from './styles'
-
-import { signInRequest } from '~/store/modules/auth/actions'
 
 export default function SignIn({ navigation }) {
   const passwordRef = useRef()

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { withNavigationFocus } from 'react-navigation'
 
-import api from '~/services/api'
-
-import Background from '~/components/Background'
 import Appointment from '~/components/Appointment'
+import Background from '~/components/Background'
+import api from '~/services/api'
 
 import { Container, Title, List } from './styles'
 
