@@ -24,6 +24,13 @@ export const Avatar = styled.Image`
   border-radius: 25px;
 `
 
+export const ProfileImage = styled.View`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: red;
+`
+
 export const Info = styled.View`
   margin-left: 15px;
 `
