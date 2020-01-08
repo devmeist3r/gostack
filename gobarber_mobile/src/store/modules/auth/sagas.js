@@ -2,6 +2,7 @@ import { Alert } from 'react-native'
 import { takeLatest, call, put, all, delay } from 'redux-saga/effects'
 
 import api from '~/services/api'
+import { navigate } from '~/services/navigation'
 
 import { signInSuccess, signFailure } from './actions'
 
@@ -50,7 +51,7 @@ export function* signUp({ payload }) {
       password,
     })
 
-    // history.push('/');
+    navigate('SignIn')
   } catch (err) {
     Alert.alert(
       'Falha no cadastro',
